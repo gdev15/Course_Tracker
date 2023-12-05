@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/CourseTracker/CourseTracker.UI.MVC/appsettings.json
