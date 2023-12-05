@@ -47,13 +47,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Models\Views\Administration\CreateRole.cshtml" />
-    <None Include="Models\Views\Administration\EditRole.cshtml" />
-    <None Include="Models\Views\Administration\EditUser.cshtml" />
-    <None Include="Models\Views\Administration\EditUserRoles.cshtml" />
-    <None Include="Models\Views\Administration\EditUsersInRole.cshtml" />
-    <None Include="Models\Views\Administration\ListRoles.cshtml" />
-    <None Include="Models\Views\Administration\ListUsers.cshtml" />
+    <None Include="Views\Administration\CreateRole.cshtml" />
+    <None Include="Views\Administration\EditRole.cshtml" />
+    <None Include="Views\Administration\EditUser.cshtml" />
+    <None Include="Views\Administration\EditUserRoles.cshtml" />
+    <None Include="Views\Administration\EditUsersInRole.cshtml" />
+    <None Include="Views\Administration\ListRoles.cshtml" />
+    <None Include="Views\Administration\ListUsers.cshtml" />
     <None Include="wwwroot\fonts\ElegantIcons.svg" />
     <None Include="wwwroot\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />

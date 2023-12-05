@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 //INSTRUCTOR BLOCK 1 - 4.E
-namespace CourseTracker.UI.MVC.Models
+namespace GadgetStore.UI.MVC.Models
 {
     public class CreateRoleViewModel
     {
