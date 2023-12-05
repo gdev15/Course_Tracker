@@ -1,9 +1,9 @@
-﻿using GadgetStore.UI.MVC.Models;
+﻿using CourseTracker.UI.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GadgetStore.UI.MVC.Controllers//Update namespace
+namespace CourseTracker.UI.MVC.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
