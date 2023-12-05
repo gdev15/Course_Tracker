@@ -398,3 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 /CourseTracker/CourseTracker.UI.MVC/appsettings.json
 /CourseTracker/CourseTracker.UI.MVC/appsettings.json
+/CourseTracker/CourseTracker.UI.MVC/Controllers/AdministrationController.cs
+/.gitignore
+/CourseTracker/CourseTracker.UI.MVC/Models/AdministrationViewModel.cs
