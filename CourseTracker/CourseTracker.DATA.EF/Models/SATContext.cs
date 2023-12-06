@@ -16,6 +16,12 @@ namespace CourseTracker.DATA.EF.Models
         {
         }
 
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
+        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } = null!;
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<ScheduledClass> ScheduledClasses { get; set; } = null!;
@@ -34,27 +40,47 @@ namespace CourseTracker.DATA.EF.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>(entity =>
+            modelBuilder.Entity<AspNetRole>(entity =>
             {
-                entity.Property(e => e.CourseDescription).IsUnicode(false);
+                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
+            });
 
-                entity.Property(e => e.CourseName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+            modelBuilder.Entity<AspNetUser>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.Curriculum)
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
+                entity.HasMany(d => d.Roles)
+                    .WithMany(p => p.Users)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "AspNetUserRole",
+                        l => l.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                        r => r.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                        j =>
+                        {
+                            j.HasKey("UserId", "RoleId");
 
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                            j.ToTable("AspNetUserRoles");
+
+                            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+                        });
+            });
+
+            modelBuilder.Entity<AspNetUserLogin>(entity =>
+            {
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+            });
+
+            modelBuilder.Entity<AspNetUserToken>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
             });
 
             modelBuilder.Entity<Enrollment>(entity =>
             {
-                entity.Property(e => e.EnrollmentDate).HasColumnType("date");
-
                 entity.HasOne(d => d.ScheduledClass)
                     .WithMany(p => p.Enrollments)
                     .HasForeignKey(d => d.ScheduledClassId)
@@ -70,22 +96,6 @@ namespace CourseTracker.DATA.EF.Models
 
             modelBuilder.Entity<ScheduledClass>(entity =>
             {
-                entity.Property(e => e.ScheduledClassId).HasColumnName("ScheduledClassID");
-
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
-                entity.Property(e => e.InstructorName)
-                    .HasMaxLength(40)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Location)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Scsid).HasColumnName("SCSID");
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
-
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.ScheduledClasses)
                     .HasForeignKey(d => d.CourseId)
@@ -99,85 +109,15 @@ namespace CourseTracker.DATA.EF.Models
                     .HasConstraintName("FK_ScheduledClasses_ScheduledClassStatuses");
             });
 
-            modelBuilder.Entity<ScheduledClassStatus>(entity =>
-            {
-                entity.HasKey(e => e.Scsid);
-
-                entity.Property(e => e.Scsid).HasColumnName("SCSID");
-
-                entity.Property(e => e.Scsname)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("SCSName");
-            });
-
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.Property(e => e.Address)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.City)
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FirstName)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.LastName)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Major)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Phone)
-                    .HasMaxLength(13)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PhotoUrl)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Ssid).HasColumnName("SSID");
-
-                entity.Property(e => e.State)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.ZipCode)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                entity.Property(e => e.State).IsFixedLength();
 
                 entity.HasOne(d => d.Ss)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.Ssid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Students_StudentStatuses");
-            });
-
-            modelBuilder.Entity<StudentStatus>(entity =>
-            {
-                entity.HasKey(e => e.Ssid);
-
-                entity.Property(e => e.Ssid).HasColumnName("SSID");
-
-                entity.Property(e => e.Ssdescription)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .HasColumnName("SSDescription");
-
-                entity.Property(e => e.Ssname)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasColumnName("SSName");
             });
 
             OnModelCreatingPartial(modelBuilder);
