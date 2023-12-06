@@ -448,9 +448,11 @@ ol {
 .hero__items {
 	padding: 250px 0 42px 50px;
 	border-radius: 5px;
+	
 }
 
 .hero__text {
+	
 	position: relative;
 	z-index: 9;
 }
@@ -1931,7 +1933,7 @@ ol {
   Footer
 -----------------------*/
 
-.footer {
+.footer, .footer-custom {
 	background: #070720;
 	padding-top: 60px;
 	padding-bottom: 40px;
@@ -2281,6 +2283,7 @@ ol {
 	}
 	.hero__items {
 		padding: 250px 0 42px 15px;
+		
 	}
 	.hero__text h2 {
 		font-size: 32px;
