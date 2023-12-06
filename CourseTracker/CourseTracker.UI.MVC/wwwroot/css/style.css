@@ -654,7 +654,8 @@ ol {
 }
 
 .product__item__pic {
-	height: 325px;
+	height: 310px;
+	width: 500px;
 	position: relative;
 	border-radius: 5px;
 }
