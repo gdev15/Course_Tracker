@@ -18,6 +18,11 @@ namespace CourseTracker.UI.MVC.Controllers
             return View();
         }
 
+        public IActionResult Courses()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
