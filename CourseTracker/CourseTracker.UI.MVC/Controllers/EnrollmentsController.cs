@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CourseTracker.DATA.EF.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CourseTracker.UI.MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EnrollmentsController : Controller
     {
         private readonly SATContext _context;
