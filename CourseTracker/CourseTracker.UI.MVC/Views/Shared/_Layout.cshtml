@@ -42,7 +42,7 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="@Url.Action("Index","Home")">Homepage</a></li>
+                                <li><a href="@Url.Action("Index","Home")">Homepage</a></li>
                                 <li><a href="@Url.Action("Index","Courses")">Courses</a>                           
                                 </li>
                                 <li><a href="@Url.Action("Index","ScheduledClasses")">Scheduled Classes</a></li>
@@ -63,14 +63,14 @@
     </header>
 
     <!-- Header End -->
-    <div class="container">
+    <div class="container ">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <!-- Footer Section Begin -->
-    <footer class="footer-custom">
+    <footer class="footer-custom my-5">
         <div class="page-up">
             <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
         </div>
