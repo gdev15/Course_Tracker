@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CourseTracker.DATA.EF.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CourseTracker.UI.MVC.Controllers
 {
@@ -27,6 +28,7 @@ namespace CourseTracker.UI.MVC.Controllers
         }
 
         // GET: Courses/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -45,6 +47,7 @@ namespace CourseTracker.UI.MVC.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +58,7 @@ namespace CourseTracker.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("CourseId,CourseName,CourseDescription,CreditHours,Curriculum,Notes,IsActive")] Course course)
         {
             if (ModelState.IsValid)
@@ -67,8 +71,10 @@ namespace CourseTracker.UI.MVC.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null || _context.Courses == null)
             {
                 return NotFound();
@@ -87,6 +93,7 @@ namespace CourseTracker.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("CourseId,CourseName,CourseDescription,CreditHours,Curriculum,Notes,IsActive")] Course course)
         {
             if (id != course.CourseId)
@@ -118,6 +125,7 @@ namespace CourseTracker.UI.MVC.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Courses == null)
@@ -138,6 +146,7 @@ namespace CourseTracker.UI.MVC.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Courses == null)
